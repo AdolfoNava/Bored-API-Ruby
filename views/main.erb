@@ -1,0 +1,47 @@
+        
+<header>
+  <h1 id="title">Bored API JS Demo</h1>
+</header>
+
+<form id="boredAPIForm" action="/submitResults" method="post">
+<div class='form-spacing'>
+  <label for="type">Activity Type: </label>
+  <select name="type" id="type">
+    <option value="no preference">No preference</option>
+    <option value="education">Education</option>
+    <option value="recreational">Recreational</option>
+    <option value="social">Social</option>
+    <option value="diy">DIY</option>
+    <option value="charity">Charity</option>
+    <option value="cooking">Cooking</option>
+    <option value="relaxation">Relaxation</option>
+    <option value="music">Music</option>
+    <option value="busywork">Busywork</option>
+  </select>
+  </div>
+  <br/>
+  <div class='form-spacing'>
+  <label for="slider1">Accessibility</label>
+  <input class="accessibility-value" name="slider1" type="range" min="0" max="1" value=".5" step=".05"
+            oninput="this.nextElementSibling.value = this.value">
+  <output>0</output>
+  </div>
+  <br/>
+  <div class='form-spacing'>
+  <label for="slider2">Price</label>
+  <input class="slider2" name="slider2" type="range" min="0" max="1" value="0" step=".1"
+            oninput="this.nextElementSibling.value = this.value">
+  <output>0</output>
+  </div>
+  <br/><div class='form-spacing'>
+  <label for="slider3">Participants</label>
+  <input class="slider3" name="slider3" type="range" min="0" max="5" value="0" step="1"
+            oninput="this.nextElementSibling.value = this.value">
+  <output>0</output>
+  </div>
+  <br>
+  <div class='form-spacing'>
+  <input type="submit" id="submit" value="submit">
+  </div>
+</div>
+</form>
