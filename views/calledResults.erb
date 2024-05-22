@@ -1,8 +1,36 @@
-<%=@answer%>
-<%=@type_selected%>
-<%=@participants_selected%>
-<%=@price_selected%>
-<%=@accessibility_selected%>
-<br>
-<%=@data%>
-<%=@results%>
+<% if should_display_toast?(@broke) %>
+  <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <strong class="me-auto">Error</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      <%= @message %>
+    </div>
+  </div>
+<% end %>
+
+<% @activities.each do |activity| %>
+  <div class="accordion" id="accordion<%=activity.name%>">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingOne">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%=activity.id%>" aria-expanded="true" aria-controls="collapseOne">
+          <%= activity.name %>
+        </button>
+      </h2>
+      <div id="collapse<%=activity.id%>" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordion<%=activity.id%>">
+        <div class="accordion-body">
+          <ul>
+            <li>Type of Activity: <%=activity.type%></li>
+            <%if activity.link%>
+              <li>Link: <%=activity.link%></li>
+            <%end%>
+            <li>Price: <%=activity.price%></li>
+            <li>Accessibility: <%=activity.accessibility%></li>
+            <li>Participants: <%=activity.participants%></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+<%end%>

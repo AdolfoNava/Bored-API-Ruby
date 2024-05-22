@@ -15,9 +15,42 @@ class Activity
   def display
     return "#{@name}, #{@link}, #{@type}, #{@id}, #{@price}, #{@accessibility}, #{@participants}"
   end
+  def name
+    # Return the value of this variable
+    @name
+  end
+  def id
+    @id
+  end
 
+  def accessibility
+    @accessibility
+  end
+  def type
+    @type
+  end
+  def link
+
+    if @link != ''
+      return @link
+    end
+    return false
+  end
+  def price
+    @price
+  end
+  def participants
+    @participants
+  end
 end
 
+def should_display_toast?(val)
+  if(val)
+    return true
+  else
+    return false
+  end
+end
 get("/") do
   erb(:main)
 end
@@ -42,10 +75,25 @@ post('/submitResults') do
     mainURL+="type=#{@type_selected}"
   end
   #httpget =  
-  @data = JSON.parse((HTTP.get(mainURL).to_s)) 
-  if(@data['error'] != 'No activity found with the specified parameters')
-    @activity = Activity.new(@data['activity'], @data['link'], @data["type"], @data['key'], @data['price'], @data['accessibility'], @data["participants"])
-    @activities.push(@activity);
+  count = 0
+  @broke = false
+  while count < 3
+    @data = JSON.parse((HTTP.get(mainURL).to_s)) 
+    if(@data['error'] != 'No activity found with the specified parameters' && !@activities.any? { |element| element.id == @data['key'] })
+      @activity = Activity.new(@data['activity'], @data['link'], @data["type"], @data['key'], @data['price'], @data['accessibility'], @data["participants"])
+      @activities.push(@activity)
+      count += 1
+    #cookie
+    else
+      if !@activities.any? { |element| element.id == @data['key']}
+        @message = 'Error occured because there was a duplicate detected'
+      else
+        @message = 'Could not find enough unique activities to do with your chosen information'
+      end
+      
+      @broke = true
+      break
+    end
   end
   @results = @activities[0].display
   erb(:calledResults)
