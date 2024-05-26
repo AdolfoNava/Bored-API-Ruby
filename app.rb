@@ -61,6 +61,12 @@ end
 get("/") do
   erb(:main)
 end
+post('/wordResults') do 
+  mainURL = "https://api.dictionaryapi.dev/api/v2/entries/en/#{params['word']}"
+  @data = JSON.parse((HTTP.get(mainURL).to_s))
+  erb(:wordCallResults)
+end
+
 post("/submitResults") do
   #url =
   @activities = []
