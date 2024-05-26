@@ -1,41 +1,45 @@
 <h1>Word searched: <%=params['word']%></h1>
-<div class='audio'>
-  <h2>Audio of the word spoken:</h2>
-  <%@data[0]['phonetics'].each do |item| %>
-    <%if item.has_key?('audio')%>
-      <%if item['audio'] != ""%>
-        <audio controls>
-          <source src="<%=item['audio']%>" type="audio/mp3">
-        </audio>
-        <%break%>
+<%if !@errorFound%>
+  <div class='audio'>
+    <h2>Audio of the word spoken:</h2>
+    <%@data[0]['phonetics'].each do |item| %>
+      <%if item.has_key?('audio')%>
+        <%if item['audio'] != ""%>
+          <audio controls>
+            <source src="<%=item['audio']%>" type="audio/mp3">
+          </audio>
+          <%break%>
+        <%end%>
       <%end%>
     <%end%>
-  <%end%>
-</div>
-<%count = 0%>
-<% @data[0]['meanings'].each do |meaning| %>
-  <h3><%=meaning['partOfSpeech']%></h3>
-  <%meaning['definitions'].each do |definite| %>
-    <%if definite.has_key?('example')%>
-      <%count = count + 1%>
-      <div class="accordion" id="accordion<%=meaning['partOfSpeech']%><%=count%>">
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="headingOne">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%=meaning['partOfSpeech']%><%=count%>" aria-expanded="true" aria-controls="collapseOne">
-              <%= "#{count}. #{definite['definition']}" %>
-            </button>
-          </h2>
-          <div id="collapse<%=meaning['partOfSpeech']%><%=count%>" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordion<%=meaning['partOfSpeech']%><%=count%>">
-            <div class="accordion-body">
-              <p><strong>Example:</strong> <%=definite['example']%></p>
+  </div>
+  <%count = 0%>
+  <% @data[0]['meanings'].each do |meaning| %>
+    <h3><%=meaning['partOfSpeech']%></h3>
+    <%meaning['definitions'].each do |definite| %>
+      <%if definite.has_key?('example')%>
+        <%count = count + 1%>
+        <div class="accordion" id="accordion<%=meaning['partOfSpeech']%><%=count%>">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%=meaning['partOfSpeech']%><%=count%>" aria-expanded="true" aria-controls="collapseOne">
+                <%= "#{count}. #{definite['definition']}" %>
+              </button>
+            </h2>
+            <div id="collapse<%=meaning['partOfSpeech']%><%=count%>" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordion<%=meaning['partOfSpeech']%><%=count%>">
+              <div class="accordion-body">
+                <p><strong>Example:</strong> <%=definite['example']%></p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    <%else%>
-      <% count = count + 1 %>
-      <h5><%= "#{count}. #{definite['definition']}" %></h5>
+      <%else%>
+        <% count = count + 1 %>
+        <h5><%= "#{count}. #{definite['definition']}" %></h5>
+      <%end%>
     <%end%>
   <%end%>
+<%else%>
+  <h2><%=@data['message']%></h2>
 <%end%>
 <a href="/">Go back</a>

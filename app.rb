@@ -64,6 +64,10 @@ end
 post('/wordResults') do 
   mainURL = "https://api.dictionaryapi.dev/api/v2/entries/en/#{params['word']}"
   @data = JSON.parse((HTTP.get(mainURL).to_s))
+  @errorFound = false;
+  if !@data.is_a?(Array)
+    @errorFound = true;
+  end
   erb(:wordCallResults)
 end
 
