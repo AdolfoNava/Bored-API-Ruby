@@ -6,6 +6,10 @@ ruby "3.2.1"
 gem "sinatra"
 gem "sinatra-contrib"
 gem 'http'
+gem 'minitest'
+gem 'rack-test'
+gem 'rails', '7.0.4.3'
+gem 'activesupport', '7.0.4.3'
 # Use Puma as the app server
 gem "puma", "~> 5.0"
 
